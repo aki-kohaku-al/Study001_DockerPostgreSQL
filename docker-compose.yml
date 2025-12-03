@@ -1,0 +1,26 @@
+services:
+  db:
+    # Docker Hubにある公式のPostgreSQLのイメージを使用
+    image: postgres:latest
+
+    # コンテナ名を設定
+    container_name: container_name
+
+    # 環境変数を設定 ( 認証情報とデータベース名)
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DBNAME}
+    
+    # データを永続化するためのボリュームを設定
+    volumes:
+      #PostgreSQLのver18以降はバージョンごとにpostgresqlディレクトリ直下に作成するようになっているらしい。
+      - data_app:/var/lib/postgresql
+
+    # ポートマッピング: ホストOSのポート:コンテナのポート
+    ports:
+      - "${DB_PORT}:5432"
+
+# 永続化のためのボリューム定義
+volumes:
+  data_app:
